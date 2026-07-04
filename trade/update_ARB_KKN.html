@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update ARB KKN Bendo - Laporan Realisasi & Anggaran</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #08090c;
+            --card-bg: rgba(18, 20, 29, 0.75);
+            --card-border: rgba(255, 255, 255, 0.06);
+            --primary: #10b981; /* Emerald Green */
+            --primary-rgb: 16, 185, 129;
+            --secondary: #3b82f6; /* Blue */
+            --accent: #8b5cf6; /* Purple */
+            --accent-orange: #f59e0b; /* Amber */
+            --danger: #ef4444;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.12) 0px, transparent 40%),
+                radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.12) 0px, transparent 40%),
+                linear-gradient(135deg, #050608 0%, #0d0f15 100%);
+            background-attachment: fixed;
+        }
+
+        header {
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            z-index: 10;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-indicator {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        main {
+            flex: 1;
+            position: relative;
+            width: 100%;
+            height: 80vh;
+        }
+
+        .slide-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 40px;
+        }
+
+        .slide {
+            position: absolute;
+            width: 95%;
+            max-width: 1300px;
+            height: 90%;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: scale(0.97) translateY(15px);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 80px rgba(var(--primary-rgb), 0.02);
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            pointer-events: auto;
+            z-index: 5;
+        }
+
+        .slide-title {
+            font-size: 2.1rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(135deg, #ffffff 40%, #c7d2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .slide-title .badge {
+            font-size: 0.85rem;
+            padding: 4px 10px;
+            border-radius: 8px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .slide-content {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+
+        .slide-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        .slide-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .slide-content::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 3px;
+        }
+
+        /* Grid systems */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            height: 100%;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        .grid-1-3 {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 30px;
+            height: 100%;
+        }
+
+        /* Custom widgets */
+        .card-stat {
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-stat:hover {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: rgba(var(--primary-rgb), 0.25);
+            transform: translateY(-2px);
+        }
+
+        .card-stat::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary);
+        }
+
+        .card-stat.blue::before { background: var(--secondary); }
+        .card-stat.purple::before { background: var(--accent); }
+        .card-stat.orange::before { background: var(--accent-orange); }
+        .card-stat.red::before { background: var(--danger); }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+            margin: 12px 0;
+            color: #ffffff;
+        }
+
+        .stat-value.primary-color { color: var(--primary); }
+        .stat-value.secondary-color { color: var(--secondary); }
+        .stat-value.danger-color { color: var(--danger); }
+
+        .stat-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* Table styles */
+        .table-wrapper {
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.01);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.85rem;
+        }
+
+        th {
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text-muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        td {
+            padding: 10px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            color: var(--text-main);
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.015);
+        }
+
+        .price-text {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Custom list style */
+        .bullet-list {
+            list-style: none;
+        }
+
+        .bullet-item {
+            margin-bottom: 10px;
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            font-size: 0.88rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .bullet-item::before {
+            content: "◆";
+            color: var(--primary);
+            font-size: 0.75rem;
+        }
+
+        .bullet-item.blue::before { color: var(--secondary); }
+        .bullet-item.orange::before { color: var(--accent-orange); }
+
+        /* Member Grid */
+        .member-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .member-card {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .member-card.lunas {
+            border-color: rgba(16, 185, 129, 0.25);
+            background: rgba(16, 185, 129, 0.03);
+        }
+
+        .member-card.belum-lunas {
+            border-color: rgba(245, 158, 11, 0.25);
+            background: rgba(245, 158, 11, 0.03);
+        }
+
+        .member-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .member-name {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .member-status {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 2px 8px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        .member-card.lunas .member-status {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--primary);
+        }
+
+        .member-card.belum-lunas .member-status {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--accent-orange);
+        }
+
+        .member-paid {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            margin-top: 8px;
+            color: var(--text-main);
+        }
+
+        /* Interactive Simulator styles */
+        .sim-container {
+            display: grid;
+            grid-template-columns: 390px 1fr;
+            gap: 30px;
+            height: 100%;
+        }
+
+        .sim-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .sim-panel {
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .sim-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 0.88rem;
+        }
+
+        .sim-checkbox input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .sim-output {
+            background: linear-gradient(135deg, rgba(14, 16, 25, 0.9), rgba(6, 7, 12, 0.9));
+            border: 1px solid rgba(var(--primary-rgb), 0.2);
+            border-radius: 20px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(var(--primary-rgb), 0.06);
+            position: relative;
+        }
+
+        .sim-big-value {
+            font-size: 3.8rem;
+            font-weight: 900;
+            font-family: 'JetBrains Mono', monospace;
+            background: linear-gradient(135deg, #ffffff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 15px 0;
+            letter-spacing: -1.5px;
+        }
+
+        /* Navigation controls */
+        .controls {
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(8, 9, 12, 0.9);
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            z-index: 10;
+        }
+
+        .arrows {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-nav {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: #ffffff;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .btn-nav:hover {
+            background: var(--primary);
+            color: #08090c;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+            transform: scale(1.05);
+        }
+
+        .btn-nav:disabled {
+            opacity: 0.15;
+            cursor: not-allowed;
+            background: rgba(255, 255, 255, 0.005);
+            color: var(--text-muted);
+            border-color: rgba(255, 255, 255, 0.02);
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .progress-container {
+            flex: 1;
+            margin: 0 40px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 1.5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            position: absolute;
+            height: 100%;
+            left: 0;
+            top: 0;
+            width: 0%;
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            border-radius: 1.5px;
+            transition: width 0.4s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">PENCATATAN & REALISASI KKN BENDO</div>
+        <div class="nav-indicator" id="slide-number">Slide 1 of 10</div>
+    </header>
+
+    <main>
+        <div class="slide-container">
+
+            <!-- Slide 1: Cover -->
+            <div class="slide active" id="slide-1">
+                <div style="display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; height:100%;">
+                    <div style="font-size:0.9rem; text-transform:uppercase; letter-spacing:3px; color:var(--primary); font-weight:700; margin-bottom:15px;">Laporan Keuangan Terupdate</div>
+                    <h1 style="font-size:3.5rem; font-weight:900; line-height:1.1; margin-bottom:20px; background:linear-gradient(135deg, #ffffff, #a7f3d0 60%, var(--primary)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; letter-spacing:-1px;">UPDATE ARB KKN BENDO</h1>
+                    <p style="font-size:1.2rem; color:var(--text-muted); max-width:650px; margin-bottom:40px; line-height:1.5;">Analisis Realisasi Kas (Pencatatan) vs Perencanaan Anggaran Kelompok Terkini</p>
+                    <button class="btn-nav" style="border-radius:30px; width:auto; padding:12px 35px; height:auto; font-weight:700;" onclick="nextSlide()">Mulai Analisis &rarr;</button>
+                </div>
+            </div>
+
+            <!-- Slide 2: Status Kas Terkini -->
+            <div class="slide" id="slide-2">
+                <h2 class="slide-title">Realisasi Kas Terupdate <span class="badge">UANG KAS</span></h2>
+                <div class="slide-content">
+                    <div style="margin-bottom: 25px; color:var(--text-muted); font-size:1.05rem; line-height:1.5;">
+                        Berdasarkan catatan kas riil di berkas <code style="color:var(--primary); font-family:'JetBrains Mono';">PENCATATAN KKN BENDO.xlsx</code>, berikut adalah posisi dana kelompok saat ini:
+                    </div>
+                    <div class="grid-3" style="margin-bottom: 30px;">
+                        <div class="card-stat">
+                            <span class="stat-label">Total Pemasukan (Kas Masuk)</span>
+                            <span class="stat-value primary-color">Rp12.090.750</span>
+                            <span class="stat-desc">Akumulasi seluruh kontribusi kas anggota, dana dari kampus (LPPM), hasil usaha danus, serta donasi luar.</span>
+                        </div>
+                        <div class="card-stat red">
+                            <span class="stat-label">Total Pengeluaran (Kas Keluar)</span>
+                            <span class="stat-value danger-color">Rp1.304.500</span>
+                            <span class="stat-desc">Seluruh pengeluaran riil kelompok, termasuk belanja logistik awal, modal operasional danus, cetak banner, & cocard.</span>
+                        </div>
+                        <div class="card-stat blue">
+                            <span class="stat-label">Sisa Saldo Kas Aktif</span>
+                            <span class="stat-value secondary-color">Rp10.786.250</span>
+                            <span class="stat-desc">Dana tunai yang saat ini dipegang bendahara kelompok untuk membiayai sisa kebutuhan operasional KKN.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3: Rincian Pemasukan -->
+            <div class="slide" id="slide-3">
+                <h2 class="slide-title">Rincian Sumber Pemasukan <span class="badge">Kas Masuk</span></h2>
+                <div class="slide-content">
+                    <div class="grid-2">
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Sumber Pemasukan</th>
+                                        <th>Jumlah Riil</th>
+                                        <th>Status Cair</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Iuran Kas Anggota</strong></td>
+                                        <td class="price-text" style="font-weight:700;">Rp9.000.000</td>
+                                        <td><span style="color:var(--primary); font-weight:700;">Sudah Masuk Kas</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Bantuan Dana LPPM Kampus</strong></td>
+                                        <td class="price-text" style="font-weight:700;">Rp1.800.000</td>
+                                        <td><span style="color:var(--primary); font-weight:700;">Sudah Masuk Kas</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Hasil Usaha Danus</strong></td>
+                                        <td class="price-text" style="font-weight:700;">Rp615.750</td>
+                                        <td><span style="color:var(--primary); font-weight:700;">Sudah Masuk Kas</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Donasi Uang Tunai</strong></td>
+                                        <td class="price-text" style="font-weight:700;">Rp600.000</td>
+                                        <td><span style="color:var(--primary); font-weight:700;">Sudah Masuk Kas</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Dana LPPM UIN (Pend. 10 Mhs)</strong></td>
+                                        <td class="price-text" style="font-weight:700; color: var(--accent-orange);">Rp3.000.000</td>
+                                        <td><span style="color:var(--accent-orange); font-weight:700;">Belum Cair (Rp300k/Anak)</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:15px;">
+                            <div class="card-stat orange">
+                                <span class="stat-label">Dana Tambahan LPPM UIN</span>
+                                <span class="stat-desc" style="margin-top:10px; font-size:0.9rem; line-height:1.6; color:#ffffff;">
+                                    • **Dana Stimulan Belum Cair**: Terdapat alokasi dana **Rp30.000 per anak** untuk 10 anggota KKN Bendo dari LPPM UIN yang belum dibagikan/dicairkan.<br>
+                                    • **Potensi Tambahan Kas**: Total **Rp3.000.000** siap memperkuat keuangan posko begitu dicairkan.<br>
+                                    • **Penyelamat Defisit**: Dana ini akan menjadi faktor krusial yang mengikis defisit proyeksi kas kelompok!
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Rincian Pengeluaran -->
+            <div class="slide" id="slide-4">
+                <h2 class="slide-title">Rincian Pengeluaran Aktual <span class="badge">Kas Keluar</span></h2>
+                <div class="slide-content">
+                    <div class="grid-2">
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Pos Pengeluaran</th>
+                                        <th>Jumlah Riil</th>
+                                        <th>Porsi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Belanja Logistik Awal</strong></td>
+                                        <td class="price-text" style="font-weight:700;">Rp984.000</td>
+                                        <td style="color:var(--danger); font-weight:700;">75.4%</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Cetak & Pengiriman CoCard</strong></td>
+                                        <td class="price-text" style="font-weight:700;">Rp170.000</td>
+                                        <td style="color:var(--accent-orange); font-weight:700;">13.0%</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Modal Operasional Danus</strong></td>
+                                        <td class="price-text" style="font-weight:700;">Rp79.500</td>
+                                        <td style="color:var(--secondary); font-weight:700;">6.1%</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Cetak Banner KKN</strong></td>
+                                        <td class="price-text" style="font-weight:700;">Rp61.000</td>
+                                        <td style="color:var(--accent); font-weight:700;">4.7%</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Print Proposal Pojok Baca</strong></td>
+                                        <td class="price-text" style="font-weight:700;">Rp10.000</td>
+                                        <td style="color:var(--text-muted);">0.8%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:15px;">
+                            <div class="card-stat red">
+                                <span class="stat-label">Analisis Aliran Pengeluaran</span>
+                                <span class="stat-desc" style="margin-top:10px; font-size:0.9rem; line-height:1.6; color:#ffffff;">
+                                    • **Belanja Terbesar**: Pengeluaran didominasi oleh logistik awal sebesar **Rp984.000** (bahan pokok posko & masak).<br>
+                                    • **Persiapan Identitas**: Pengeluaran atribut identitas (CoCard + Pengiriman) memakan biaya sebesar **Rp170.000**.<br>
+                                    • **Investasi Danus**: Pengeluaran modal danus sebesar **Rp79.500** berhasil menghasilkan omzet yang jauh lebih besar, menunjukkan efisiensi investasi internal.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: Pemasukan Member Kas -->
+            <div class="slide" id="slide-5">
+                <h2 class="slide-title">Status Iuran Kas Harian Anggota <span class="badge">Piutang Anggota</span></h2>
+                <div class="slide-content">
+                    <div style="margin-bottom: 20px; color:var(--text-muted); font-size:1rem;">
+                        Target iuran per anggota KKN adalah **Rp1.000.000** untuk membiayai posko dan logistik. Berikut status kontribusi per 4 Juli 2026:
+                    </div>
+                    <div class="member-grid">
+    
+                        <div class="member-card lunas">
+                            <div class="member-name">Faiz</div>
+                            <span class="member-status">Lunas</span>
+                            <div class="member-paid">Rp1.025.000</div>
+                        </div>
+    
+                        <div class="member-card lunas">
+                            <div class="member-name">Fikri</div>
+                            <span class="member-status">Lunas</span>
+                            <div class="member-paid">Rp1.050.000</div>
+                        </div>
+    
+                        <div class="member-card lunas">
+                            <div class="member-name">Atha</div>
+                            <span class="member-status">Lunas</span>
+                            <div class="member-paid">Rp1.000.000</div>
+                        </div>
+    
+                        <div class="member-card lunas">
+                            <div class="member-name">Tami</div>
+                            <span class="member-status">Lunas</span>
+                            <div class="member-paid">Rp1.000.000</div>
+                        </div>
+    
+                        <div class="member-card lunas">
+                            <div class="member-name">Fatikha</div>
+                            <span class="member-status">Lunas</span>
+                            <div class="member-paid">Rp1.000.000</div>
+                        </div>
+    
+                        <div class="member-card lunas">
+                            <div class="member-name">Zaki</div>
+                            <span class="member-status">Lunas</span>
+                            <div class="member-paid">Rp1.000.000</div>
+                        </div>
+    
+                        <div class="member-card lunas">
+                            <div class="member-name">Yuli</div>
+                            <span class="member-status">Lunas</span>
+                            <div class="member-paid">Rp1.000.000</div>
+                        </div>
+    
+                        <div class="member-card lunas">
+                            <div class="member-name">Zahra</div>
+                            <span class="member-status">Lunas</span>
+                            <div class="member-paid">Rp1.000.000</div>
+                        </div>
+    
+                        <div class="member-card belum-lunas">
+                            <div class="member-name">Fajri</div>
+                            <span class="member-status">Belum Lunas</span>
+                            <div class="member-paid">Rp500.000</div>
+                        </div>
+    
+                        <div class="member-card belum-lunas">
+                            <div class="member-name">Lalu</div>
+                            <span class="member-status">Belum Lunas</span>
+                            <div class="member-paid">Rp500.000</div>
+                        </div>
+    
+                    </div>
+                    <div class="card-custom orange" style="margin-top:20px;">
+                        <div class="card-title">Kekurangan Piutang Kas Anggota</div>
+                        <div class="card-value" style="color:var(--accent-orange);">Rp1.000.000</div>
+                        <div class="card-desc">
+                            <strong>Fajri</strong> dan <strong>Lalu</strong> masing-masing memiliki kekurangan pembayaran sebesar <strong>Rp500.000</strong>. Pelunasan dari kedua anggota ini akan menambah modal kas menjadi <strong>Rp11.786.250</strong>.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 6: Perbandingan Rencana vs Realisasi -->
+            <div class="slide" id="slide-6">
+                <h2 class="slide-title">Perbandingan Rencana Anggaran vs Realisasi <span class="badge">Rencana vs Riil</span></h2>
+                <div class="slide-content">
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Kategori Anggaran</th>
+                                    <th>Rencana Awal (Planned)</th>
+                                    <th>Realisasi (Spent)</th>
+                                    <th>Sisa Anggaran Sisa</th>
+                                    <th>Status Pelaksanaan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Sewa Rumah Posko</strong></td>
+                                    <td class="price-text">Rp4.000.000</td>
+                                    <td class="price-text">Rp0</td>
+                                    <td class="price-text" style="color:var(--secondary); font-weight:700;">Rp4.000.000</td>
+                                    <td><span style="color:var(--danger); font-weight:700;">Belum Dibayar</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Kebutuhan Logistik</strong></td>
+                                    <td class="price-text">Rp5.727.000</td>
+                                    <td class="price-text">Rp984.000</td>
+                                    <td class="price-text" style="color:var(--secondary); font-weight:700;">Rp4.743.000</td>
+                                    <td><span style="color:var(--primary); font-weight:700;">Telah Dibelanjakan Sebagian</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Program Kerja (Proker)</strong></td>
+                                    <td class="price-text">Rp6.065.000</td>
+                                    <td class="price-text">Rp71.000</td>
+                                    <td class="price-text" style="color:var(--secondary); font-weight:700;">Rp5.994.000</td>
+                                    <td><span style="color:var(--accent-orange); font-weight:700;">Belum Berjalan Sepenuhnya</span></td>
+                                </tr>
+                                <tr style="background: rgba(255,255,255,0.02); font-weight:700;">
+                                    <td>TOTAL OPERASIONAL SISA</td>
+                                    <td class="price-text">Rp15.792.000</td>
+                                    <td class="price-text">Rp1.304.500</td>
+                                    <td class="price-text" style="color:var(--primary);">Rp14.737.000</td>
+                                    <td>Kebutuhan yang harus didanai saldo kas</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 7: Proyeksi Defisit / Surplus -->
+            <div class="slide" id="slide-7">
+                <h2 class="slide-title">Proyeksi Anggaran & Analisis Defisit/Surplus <span class="badge">Proyeksi</span></h2>
+                <div class="slide-content">
+                    <div class="grid-2">
+                        <div style="display:flex; flex-direction:column; gap:15px;">
+                            <div class="card-stat">
+                                <span class="stat-label">Sisa Saldo Kas Aktif</span>
+                                <span class="stat-value secondary-color">Rp10.786.250</span>
+                                <span class="stat-desc">Uang tunai yang dipegang kasir kelompok saat ini.</span>
+                            </div>
+                            <div class="card-stat purple">
+                                <span class="stat-label">Total Sisa Kebutuhan Operasional</span>
+                                <span class="stat-value" style="color:var(--accent);">Rp14.737.000</span>
+                                <span class="stat-desc">Estimasi total biaya sewa posko + sisa logistik + sisa proker yang belum terlaksana.</span>
+                            </div>
+                            <div class="card-stat red">
+                                <span class="stat-label">Kekurangan Anggaran Awal</span>
+                                <span class="stat-value danger-color">-Rp3.950.750</span>
+                                <span class="stat-desc">Kekurangan dana jika hanya mengandalkan kas aktif saat ini.</span>
+                            </div>
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:15px;">
+                            <div class="card-stat orange">
+                                <span class="stat-label">Dana LPPM UIN Pending (10 Mhs)</span>
+                                <span class="stat-value" style="color:var(--accent-orange);">Rp3.000.000</span>
+                                <span class="stat-desc">Dana stimulan kampus yang belum cair (Rp300k x 10 anak).</span>
+                            </div>
+                            <div class="card-stat blue">
+                                <span class="stat-label">Iuran Kas Fajri & Lalu Pending</span>
+                                <span class="stat-value secondary-color">Rp1.000.000</span>
+                                <span class="stat-desc">Iuran belum lunas (Rp500k x 2 orang).</span>
+                            </div>
+                            <div class="card-stat" style="border-color: rgba(16, 185, 129, 0.4); background: rgba(16, 185, 129, 0.05); font-weight:700;">
+                                <span class="stat-label" style="color: var(--primary);">Saldo Akhir Proyeksi (Surplus)</span>
+                                <span class="stat-value primary-color">+Rp49.250</span>
+                                <span class="stat-desc">Kas kelompok akan **Surplus Rp49.250** setelah pencairan dana LPPM dan pelunasan kas anggota dilakukan!</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 8: Rekomendasi Finansial -->
+            <div class="slide" id="slide-8">
+                <h2 class="slide-title">Langkah Strategis Pengamanan Kas <span class="badge">Rencana Tindakan</span></h2>
+                <div class="slide-content">
+                    <div class="note-list" style="margin-bottom:20px;">
+                        <div class="note-item" style="border-left: 4px solid var(--primary); padding-left: 15px;">
+                            <strong>Segera Cairkan Dana LPPM UIN</strong>: Hubungi pihak administrasi LPPM untuk memproses pencairan dana stimulan **Rp300.000 per anak (Total Rp3.000.000)** guna memastikan likuiditas kelompok aman.
+                        </div>
+                        <div class="note-item" style="border-left: 4px solid var(--secondary); padding-left: 15px;">
+                            <strong>Penagihan Sisa Kas Anggota</strong>: Lakukan penagihan sisa iuran kas masing-masing sebesar Rp500.000 kepada Fajri dan Lalu untuk menyuntik dana tunai sebesar **Rp1.000.000** ke saldo aktif.
+                        </div>
+                        <div class="note-item" style="border-left: 4px solid var(--accent-orange); padding-left: 15px;">
+                            <strong>Efisiensi Anggaran Proker</strong>: Proyeksi surplus Rp49.250 masih tergolong tipis. Lakukan rasionalisasi anggaran proker proposal (Rp6.065.000) agar kelompok memiliki dana cadangan darurat (*safety margin*) yang lebih tebal.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 9: Interactive Budget Simulator -->
+            <div class="slide" id="slide-9">
+                <h2 class="slide-title">Simulasi & Optimasi Budget Kelompok <span class="badge">Simulator Interaktif</span></h2>
+                <div class="slide-content">
+                    <div class="sim-container">
+                        <div class="sim-sidebar">
+                            <div class="sim-panel">
+                                <h3 style="color:#ffffff; font-size:0.95rem; margin-bottom:12px; font-weight:700;">Pendapatan & Saldo Proyeksi</h3>
+                                <label class="sim-checkbox">
+                                    <input type="checkbox" id="sim-unpaid-kas" checked onchange="calculateDeficitSim()">
+                                    <span>Pelunasan Kas Fajri & Lalu (+Rp1.000.000)</span>
+                                </label>
+                                <label class="sim-checkbox">
+                                    <input type="checkbox" id="sim-lppm-pending" checked onchange="calculateDeficitSim()">
+                                    <span style="color:var(--accent-orange); font-weight:600;">Pencairan LPPM UIN (+Rp3.000.000)</span>
+                                </label>
+                            </div>
+                            
+                            <div class="sim-panel">
+                                <h3 style="color:#ffffff; font-size:0.95rem; margin-bottom:12px; font-weight:700;">Pengeluaran Sisa</h3>
+                                <label class="sim-checkbox">
+                                    <input type="checkbox" id="sim-posko" checked onchange="calculateDeficitSim()">
+                                    <span>Sewa Rumah Posko (Rp4.000.000)</span>
+                                </label>
+                                <label class="sim-checkbox">
+                                    <input type="checkbox" id="sim-logistics" checked onchange="calculateDeficitSim()">
+                                    <span>Sisa Kebutuhan Logistik (Rp4.743.000)</span>
+                                </label>
+                                <label class="sim-checkbox">
+                                    <input type="checkbox" id="sim-proker" checked onchange="calculateDeficitSim()">
+                                    <span>Sisa Proker (Proposal) (Rp5.994.000)</span>
+                                </label>
+                            </div>
+                            
+                            <div class="sim-panel">
+                                <h3 style="color:#ffffff; font-size:0.95rem; margin-bottom:12px; font-weight:700;">Optimasi & Pemotongan RAB</h3>
+                                <label class="sim-checkbox">
+                                    <input type="checkbox" id="sim-optimize-proker" onchange="calculateDeficitSim()">
+                                    <span style="color:var(--primary); font-weight:600;">Kurangi Anggaran Proker 50%</span>
+                                </label>
+                                <label class="sim-checkbox">
+                                    <input type="checkbox" id="sim-optimize-logistics" onchange="calculateDeficitSim()">
+                                    <span style="color:var(--primary); font-weight:600;">Efisiensi Logistik 10%</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="sim-output">
+                            <h3 style="color:#ffffff; font-size:1.3rem; font-weight:700;" id="sim-result-title">Sisa Saldo Kas / Kekurangan Uang</h3>
+                            <div class="sim-big-value" id="sim-result-val">-Rp3.950.750</div>
+                            <p class="stat-desc" id="sim-result-desc" style="max-width:450px; line-height:1.5; font-size:0.92rem;">
+                                Defisit saat ini karena sisa saldo kas tidak cukup membiayai seluruh sisa operasional KKN. Coba aktifkan **Pelunasan Kas** dan **Pencairan LPPM UIN**.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 10: Conclusion -->
+            <div class="slide" id="slide-10">
+                <h2 class="slide-title">Kesimpulan Analisis Finansial <span class="badge">Kesimpulan</span></h2>
+                <div class="slide-content">
+                    <div style="display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; height:100%; gap:20px;">
+                        <div style="font-size:4rem; color:var(--primary);">✔</div>
+                        <h3 style="font-size:1.6rem; color:#ffffff; font-weight:700;">Proyeksi Kas KKN Bendo Aman & Berpotensi Surplus!</h3>
+                        <p style="font-size:1.05rem; color:var(--text-muted); max-width:700px; line-height:1.6;">
+                            Kekhawatiran akan defisit besar kelompok telah terpecahkan berkat adanya dana **LPPM UIN** sebesar **Rp3.000.000** (Rp300k/anak) yang belum dicairkan. Dengan pelunasan kas anggota serta pencairan dana stimulan kampus tersebut, keuangan KKN Bendo diproyeksikan akan mencatat **surplus Rp49.250**, bahkan bisa mencapai **surplus Rp3.500.000+** jika dilakukan optimasi/pemotongan 50% anggaran proker sisa.
+                        </p>
+                        <div style="background:rgba(255,255,255,0.01); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:15px 25px; font-size:0.9rem; color:var(--primary); font-weight:600;">
+                            Laporan keuangan CSV & Markdown telah diperbarui di folder trade/
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <div class="controls">
+        <div>
+            <span style="font-size:0.8rem; color:var(--text-muted); font-weight:500;">Pintasan: Spasi / Arrow Kanan = Maju | Arrow Kiri = Mundur</span>
+        </div>
+        <div class="progress-container">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <div class="arrows">
+            <button class="btn-nav" id="prev-btn" onclick="prevSlide()" disabled>&larr;</button>
+            <button class="btn-nav" id="next-btn" onclick="nextSlide()">&rarr;</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 10;
+
+        function updateSlides() {
+            const percentage = ((currentSlide - 1) / (totalSlides - 1)) * 100;
+            document.getElementById('progress-fill').style.width = percentage + '%';
+            document.getElementById('slide-number').innerText = `Slide ${currentSlide} of ${totalSlides}`;
+
+            for (let i = 1; i <= totalSlides; i++) {
+                const slide = document.getElementById(`slide-${i}`);
+                if (i === currentSlide) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            }
+
+            document.getElementById('prev-btn').disabled = (currentSlide === 1);
+            document.getElementById('next-btn').disabled = (currentSlide === totalSlides);
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                currentSlide++;
+                updateSlides();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                currentSlide--;
+                updateSlides();
+            }
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight' || event.key === ' ') {
+                nextSlide();
+            } else if (event.key === 'ArrowLeft') {
+                prevSlide();
+            }
+        });
+
+        // Simulator Logic
+        function calculateDeficitSim() {
+            const currentCash = 10786250.0;
+            const unpaidKas = 1000000.0;
+            const lppmPending = 3000000.0;
+            
+            const sewaRumah = 4000000;
+            const sisaLogistik = 4743000.0;
+            const sisaProker = 5994000.0;
+            
+            let totalAvailable = currentCash;
+            if (document.getElementById('sim-unpaid-kas').checked) {
+                totalAvailable += unpaidKas;
+            }
+            if (document.getElementById('sim-lppm-pending').checked) {
+                totalAvailable += lppmPending;
+            }
+            
+            let totalExpenses = 0;
+            if (document.getElementById('sim-posko').checked) {
+                totalExpenses += sewaRumah;
+            }
+            
+            let logExpense = sisaLogistik;
+            if (document.getElementById('sim-optimize-logistics').checked) {
+                logExpense = logExpense * 0.9;
+            }
+            if (document.getElementById('sim-logistics').checked) {
+                totalExpenses += logExpense;
+            }
+            
+            let prokerExpense = sisaProker;
+            if (document.getElementById('sim-optimize-proker').checked) {
+                prokerExpense = prokerExpense * 0.5;
+            }
+            if (document.getElementById('sim-proker').checked) {
+                totalExpenses += prokerExpense;
+            }
+            
+            const netBalance = totalAvailable - totalExpenses;
+            
+            const prefix = netBalance < 0 ? "-" : "";
+            const formatted = prefix + "Rp" + Math.abs(netBalance).toLocaleString('id-ID').replace(/,/g, '.');
+            
+            const valEl = document.getElementById('sim-result-val');
+            const titleEl = document.getElementById('sim-result-title');
+            const descEl = document.getElementById('sim-result-desc');
+            
+            valEl.innerText = formatted;
+            
+            if (netBalance < 0) {
+                valEl.style.color = "var(--danger)";
+                titleEl.innerText = "Kekurangan Anggaran (Defisit)";
+                descEl.innerHTML = "Sisa saldo kas kelompok **tidak cukup** untuk mendanai rencana pengeluaran sisa. Kelompok perlu melakukan pencairan dana LPPM UIN, pelunasan iuran kas anggota, atau optimasi proker.";
+            } else {
+                valEl.style.color = "var(--primary)";
+                titleEl.innerText = "Kelebihan Uang (Surplus)";
+                descEl.innerHTML = "Selamat! Dengan skenario ini, kas kelompok KKN Bendo akan memiliki **surplus** dana cadangan sebesar " + formatted + " setelah seluruh kegiatan selesai dibayarkan!";
+            }
+        }
+
+        // Initialize simulator
+        calculateDeficitSim();
+    </script>
+</body>
+</html>
